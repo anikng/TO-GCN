@@ -229,7 +229,7 @@ void node_pair_generator_LD_or_TD(int opt) {
 
     for(int i=0; i<num_of_TFs; i++) {
         for(int j=0; j<num_of_genes; j++) {
-			for(int k=0; k<10; k++) {
+	    for(int k=0; k<10; k++) {
 				TF_exp_table[i].network[k] = 0;
 				gene_exp_table[j].network[k] = 0;
 			}
@@ -340,10 +340,7 @@ void node_pair_generator_LD_or_TD(int opt) {
                 }
             }
         }
-
     }
-
-    
 
     Pos_Coexp = new R_table[num_of_pos_edge];
     
@@ -377,7 +374,7 @@ void node_pair_generator_LD_or_TD(int opt) {
                         strcpy(Pos_Coexp[index_pos].target_gene_ID, gene_exp_table[j].gene_ID);
                         index_pos++;
                     }
-                } else if(opt == 3) { //C1-C21
+				} else if(opt == 3) { //C1-C21
                     if(R_LD <= pos_cutoff_LD && R_TD <= pos_cutoff_TD) {
                         strcpy(Pos_Coexp[index_pos].query_gene_ID, TF_exp_table[i].gene_ID);
                         strcpy(Pos_Coexp[index_pos].target_gene_ID, gene_exp_table[j].gene_ID);
@@ -517,12 +514,13 @@ int main(int argc, char* argv[]) {
         printf("\nUsage: TO-GCN #Cond1_samples #Cond2_samples file_of_TF_genes file_of_all_genes Cutoff_pos_C1 Cutoff_pos_C2 Seed_ID_list coexpression_type\n");
         printf("coexpression_type = 0: C1+C2+\n");
         printf("coexpression_type = 1: C1+C20\n");
-        printf("coexpression_type = 2: C10+C2+\n");
+		printf("coexpression_type = 2: C10C2+\n");
         printf("coexpression_type = 3: C1-C2-\n");
         printf("coexpression_type = 4: C1-C20\n");
         printf("coexpression_type = 5: C10C2-\n");
         printf("coexpression_type = 6: C1+C2-\n");
-        printf("coexpression_type = 7: C1-C2+\n");
+        printf("coexpression_type = 7: C1-C2+\n\n");
+        
     } else {
 
         num_of_point_LD = atoi(argv[1]);
