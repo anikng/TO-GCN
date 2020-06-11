@@ -321,7 +321,7 @@ void node_pair_generator_LD_or_TD(int opt) {
                     R_LD = r_calculator(i,j,0);
                     R_TD = r_calculator(i,j,1);
                     
-                    if(R_LD >= pos_cutoff_LD && R_TD <= -pos_cutoff_TD) { // (7)LD+TD-
+                    if(R_LD >= pos_cutoff_LD && R_TD <= pos_cutoff_TD) { // (7)LD+TD-
                         num_of_pos_edge++;
                     }
                 }
@@ -334,7 +334,7 @@ void node_pair_generator_LD_or_TD(int opt) {
                     R_LD = r_calculator(i,j,0);
                     R_TD = r_calculator(i,j,1);
                     
-                    if(R_LD <= -pos_cutoff_LD && R_TD >= pos_cutoff_TD) { // (8)LD-TD+
+                    if(R_LD <= pos_cutoff_LD && R_TD >= pos_cutoff_TD) { // (8)LD-TD+
                         num_of_pos_edge++;
                     }
                 }
@@ -393,13 +393,13 @@ void node_pair_generator_LD_or_TD(int opt) {
                         index_pos++;
                     }
                 } else if(opt == 6) { //C1+C2-
-                    if(R_LD >= pos_cutoff_LD && R_TD <= -pos_cutoff_TD) {
+                    if(R_LD >= pos_cutoff_LD && R_TD <= pos_cutoff_TD) {
                         strcpy(Pos_Coexp[index_pos].query_gene_ID, TF_exp_table[i].gene_ID);
                         strcpy(Pos_Coexp[index_pos].target_gene_ID, gene_exp_table[j].gene_ID);
                         index_pos++;
                     }
                 } else if(opt == 7) { //C1-C2+
-                    if(R_LD <= -pos_cutoff_LD && R_TD >= pos_cutoff_TD) {
+                    if(R_LD <= pos_cutoff_LD && R_TD >= pos_cutoff_TD) {
                         strcpy(Pos_Coexp[index_pos].query_gene_ID, TF_exp_table[i].gene_ID);
                         strcpy(Pos_Coexp[index_pos].target_gene_ID, gene_exp_table[j].gene_ID);
                         index_pos++;
