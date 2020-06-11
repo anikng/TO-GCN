@@ -275,7 +275,74 @@ void node_pair_generator_LD_or_TD(int opt) {
                 }
             }
         }
+    } else if(opt == 3) { //considering positive correlation in TD only LD-TD-
+        for(int i=0; i<num_of_TFs; i++) {
+            for(int j=0; j<num_of_genes; j++) {
+                if(strcmp(TF_exp_table[i].gene_ID, gene_exp_table[j].gene_ID) != 0) {
+                    R_LD = r_calculator(i,j,0);
+                    R_TD = r_calculator(i,j,1);
+                    
+                    if(R_LD <= pos_cutoff_LD && R_TD <= pos_cutoff_TD) { // (2)LD-TD-
+                        num_of_pos_edge++;
+                    }
+                }
+            }
+        }
+    } else if(opt == 4) { //considering positive correlation in TD only LD-TD0
+        for(int i=0; i<num_of_TFs; i++) {
+            for(int j=0; j<num_of_genes; j++) {
+                if(strcmp(TF_exp_table[i].gene_ID, gene_exp_table[j].gene_ID) != 0) {
+                    R_LD = r_calculator(i,j,0);
+                    R_TD = r_calculator(i,j,1);
+                    
+                    if(R_LD <= pos_cutoff_LD && R_TD < pos_no_cutoff && R_TD >= neg_no_cutoff) { // (4)LD-TD0
+                        num_of_pos_edge++;
+                    }
+                }
+            }
+        }
+    } else if(opt == 5) { //considering positive correlation in TD only LD0TD-
+        for(int i=0; i<num_of_TFs; i++) {
+            for(int j=0; j<num_of_genes; j++) {
+                if(strcmp(TF_exp_table[i].gene_ID, gene_exp_table[j].gene_ID) != 0) {
+                    R_LD = r_calculator(i,j,0);
+                    R_TD = r_calculator(i,j,1);
+                    
+                    if(R_TD <= pos_cutoff_TD && R_LD < pos_no_cutoff && R_LD >= neg_no_cutoff) { // (6)LD0TD-
+                        num_of_pos_edge++;
+                    }
+                }
+            }
+        }
+    } else if(opt == 6) { //considering positive correlation in TD only LD+TD-
+        for(int i=0; i<num_of_TFs; i++) {
+            for(int j=0; j<num_of_genes; j++) {
+                if(strcmp(TF_exp_table[i].gene_ID, gene_exp_table[j].gene_ID) != 0) {
+                    R_LD = r_calculator(i,j,0);
+                    R_TD = r_calculator(i,j,1);
+                    
+                    if(R_LD >= pos_cutoff_LD && R_TD <= -pos_cutoff_TD) { // (7)LD+TD-
+                        num_of_pos_edge++;
+                    }
+                }
+            }
+        }
+    } else if(opt == 7) { //considering positive correlation in TD only LD-TD+
+        for(int i=0; i<num_of_TFs; i++) {
+            for(int j=0; j<num_of_genes; j++) {
+                if(strcmp(TF_exp_table[i].gene_ID, gene_exp_table[j].gene_ID) != 0) {
+                    R_LD = r_calculator(i,j,0);
+                    R_TD = r_calculator(i,j,1);
+                    
+                    if(R_LD <= -pos_cutoff_LD && R_TD >= pos_cutoff_TD) { // (8)LD-TD+
+                        num_of_pos_edge++;
+                    }
+                }
+            }
+        }
+
     }
+
     
 
     Pos_Coexp = new R_table[num_of_pos_edge];
@@ -306,6 +373,36 @@ void node_pair_generator_LD_or_TD(int opt) {
                     }
                 } else if(opt == 2) { //C10C2+
                     if(R_TD >= pos_cutoff_TD && R_LD < pos_no_cutoff && R_LD >= neg_no_cutoff) {
+                        strcpy(Pos_Coexp[index_pos].query_gene_ID, TF_exp_table[i].gene_ID);
+                        strcpy(Pos_Coexp[index_pos].target_gene_ID, gene_exp_table[j].gene_ID);
+                        index_pos++;
+                    }
+                } else if(opt == 3) { //C1-C21
+                    if(R_LD <= pos_cutoff_LD && R_TD <= pos_cutoff_TD) {
+                        strcpy(Pos_Coexp[index_pos].query_gene_ID, TF_exp_table[i].gene_ID);
+                        strcpy(Pos_Coexp[index_pos].target_gene_ID, gene_exp_table[j].gene_ID);
+                        index_pos++;
+                    }
+                } else if(opt == 4) { //C1-C20
+                    if(R_LD <= pos_cutoff_LD && R_LD < pos_no_cutoff && R_LD >= neg_no_cutoff) {
+                        strcpy(Pos_Coexp[index_pos].query_gene_ID, TF_exp_table[i].gene_ID);
+                        strcpy(Pos_Coexp[index_pos].target_gene_ID, gene_exp_table[j].gene_ID);
+                        index_pos++;
+                    }
+                } else if(opt == 5) { //C10C2-
+                    if(R_TD <= pos_cutoff_TD && R_LD < pos_no_cutoff && R_LD >= neg_no_cutoff) {
+                        strcpy(Pos_Coexp[index_pos].query_gene_ID, TF_exp_table[i].gene_ID);
+                        strcpy(Pos_Coexp[index_pos].target_gene_ID, gene_exp_table[j].gene_ID);
+                        index_pos++;
+                    }
+                } else if(opt == 6) { //C1+C2-
+                    if(R_LD >= pos_cutoff_LD && R_TD <= -pos_cutoff_TD) {
+                        strcpy(Pos_Coexp[index_pos].query_gene_ID, TF_exp_table[i].gene_ID);
+                        strcpy(Pos_Coexp[index_pos].target_gene_ID, gene_exp_table[j].gene_ID);
+                        index_pos++;
+                    }
+                } else if(opt == 7) { //C1-C2+
+                    if(R_LD <= -pos_cutoff_LD && R_TD >= pos_cutoff_TD) {
                         strcpy(Pos_Coexp[index_pos].query_gene_ID, TF_exp_table[i].gene_ID);
                         strcpy(Pos_Coexp[index_pos].target_gene_ID, gene_exp_table[j].gene_ID);
                         index_pos++;
@@ -420,8 +517,12 @@ int main(int argc, char* argv[]) {
         printf("\nUsage: TO-GCN #Cond1_samples #Cond2_samples file_of_TF_genes file_of_all_genes Cutoff_pos_C1 Cutoff_pos_C2 Seed_ID_list coexpression_type\n");
         printf("coexpression_type = 0: C1+C2+\n");
         printf("coexpression_type = 1: C1+C20\n");
-        printf("coexpression_type = 2: C10+C2+\n\n");
-        
+        printf("coexpression_type = 2: C10+C2+\n");
+        printf("coexpression_type = 3: C1-C2-\n");
+        printf("coexpression_type = 4: C1-C20\n");
+        printf("coexpression_type = 5: C10C2-\n");
+        printf("coexpression_type = 6: C1+C2-\n");
+        printf("coexpression_type = 7: C1-C2+\n");
     } else {
 
         num_of_point_LD = atoi(argv[1]);
@@ -461,7 +562,7 @@ int main(int argc, char* argv[]) {
             printf("Cutoffs for (Pos_C1, Pos_C2): (%1.2lf, %1.2lf)\n\n", pos_cutoff_LD, pos_cutoff_TD);
             printf("Assigning levels for TFs in GCN by Breadth-First-Search (BFS) method......\n");
         
-            node_pair_generator_LD_or_TD(coex_type); //0: for C1+C2+; 1: for C1+C20; 2: for C10C2+
+            node_pair_generator_LD_or_TD(coex_type); //0: for C1+C2+; 1: for C1+C20; 2: for C10C2+; 3: for C1-C2-; 4: for C1-C20; 5: for C10C2-; 6: for C1+C2-; 7: for C1-C2+
             level_assignment();
             function_three();
         
